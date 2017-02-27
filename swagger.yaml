@@ -2,7 +2,7 @@
 swagger: "2.0"
 info:
   version: "2017-01-10T20:57:23Z"
-  title: "AWSConfig API Interfaces"
+  title: "AWSConfigRules API Interfaces"
 schemes:
 - "https"
 paths:
@@ -45,8 +45,6 @@ paths:
         required: true
         type: "string"
       responses: {}
-      security:
-      - SSOAuthorizer: []
       x-amazon-apigateway-integration:
         responses:
           default:
@@ -59,17 +57,6 @@ paths:
         - "method.request.path.proxy"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws_proxy"
-securityDefinitions:
-  SSOAuthorizer:
-    type: "apiKey"
-    name: "Authorization"
-    in: "header"
-    x-amazon-apigateway-authtype: "custom"
-    x-amazon-apigateway-authorizer:
-      authorizerCredentials: "arn:aws:iam::AWS::ACCOUNT_ID:role/AWS::CUSTOM_AUTHORIZER_ROLE_NAME"
-      authorizerResultTtlInSeconds: 300
-      authorizerUri: "arn:aws:apigateway:AWS::REGION:lambda:path/2015-03-31/functions/arn:aws:lambda:AWS::REGION:AWS::ACCOUNT_ID:function:AWS::CUSTOM_AUTHORIZER_LAMBDA_NAME/invocations"
-      type: "token"
 definitions:
   Empty:
     type: "object"

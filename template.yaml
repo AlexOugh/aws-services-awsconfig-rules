@@ -1,6 +1,11 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: API Interfaces and corresponding Lambda Functions for awsconfig.
+Parameters:
+  FederationLambdaFunctionName:
+    Type: String
+    Description: Federation Lambda Function Name
+
 Resources:
   ApiGatewayApi:
     Type: AWS::Serverless::Api
@@ -83,17 +88,6 @@ Resources:
       CodeUri: ./src
       Role: !GetAtt LambdaFunctionIAMRole.Arn
       Timeout: 300
-      Environment:
-        Variables:
-          BUCKET_NAME_POSTFIX: ".awsconfig"
-          TOPIC_NAME: "awsconfig-topic"
-          SAVER_FUNCTION_NAME: !Ref SaveAlertFunction
-          SAVER_FUNCTION_ARN: !GetAtt SaveAlertFunction.Arn
-          ASSUME_ROLE_POLICY_NAME: "awsconfig_assume_role_policy"
-          ROLE_NAME: "awsconfig-setup-role"
-          INLINE_POLICY_NAME: "awsconfig_setup_policy"
-          DELIVERY_CHANNEL_NAME: "default"
-          CONFIG_RECORDER_NAME: "default"
       Events:
         GetResource:
           Type: Api
