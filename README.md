@@ -88,7 +88,7 @@ Input Parameter Values
 
 - GitHubSourceRepositoryOwner: `SungardAS`
 
-- ParameterOverrides:
+- ParameterOverrides: `{ "AWSConfigTopicArn": "awsconfig_topic_arn" }`
 
 - ProjectImage: `aws/codebuild/nodejs:4.3.2`
 

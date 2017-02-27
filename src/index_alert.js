@@ -60,12 +60,12 @@ exports.handler = function (event, context) {
       item: item
     };
     dynamodb.save(input, function(err, data) {
-      if (err)  callback(err, null);
-      else callback(null, createResponse(200, true));
+      if (err)  context.fail(err, null);
+      else context.done(null, createResponse(200, true));
     });
   }
   else{
     console.log("Non_Complaint_Alert_Message_False...Ignoring Alert Message.");
-    callback(null, createResponse(200, true));
+    context.done(null, createResponse(200, true));
   }
 }

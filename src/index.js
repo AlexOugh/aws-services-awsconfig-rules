@@ -1,4 +1,6 @@
 
+var AWS = require('aws-sdk');
+
 var baseHandler = require('aws-services-lib/lambda/base_handler.js')
 
 exports.handler = (event, context) => {
@@ -21,9 +23,9 @@ baseHandler.get = function(params, callback) {
   }
   console.log(input)
 
-  function succeeded(input) { context.done(null, input.rules);}
-  function failed(input) { context.done(null, false); }
-  function errored(err) { context.fail(err, null); }
+  function succeeded(input) { callback(null, input.rules); }
+  function failed(input) { callback(null, {result: false}); }
+  function errored(err) { callback(err, null); }
 
   var flows = [
      {func:aws_config.getCreatedRules, success:succeeded, failure:failed, error:errored},
@@ -49,9 +51,10 @@ baseHandler.post = function(params, callback) {
       aws_lambda.enableRule(input);
     }
   }
-  function succeeded(input) { context.done(null, true); }
-  function failed(input) { context.done(null, false); }
-  function errored(err) { context.fail(err, null); }
+
+  function succeeded(input) { callback(null, {result: true}); }
+  function failed(input) { callback(null, {result: false}); }
+  function errored(err) { callback(err, null); }
 
   var input = {
      region: params.region,
@@ -94,9 +97,9 @@ baseHandler.delete = function(params, callback) {
   var aws_config = new (require('aws-services-lib/aws/awsconfig.js'))();
   var aws  = require("aws-sdk");
 
-  function succeeded(input) { context.done(null, true); }
-  function failed(input) { context.done(null, false); }
-  function errored(err) { context.fail(err, null); }
+  function succeeded(input) { callback(null, {result: true}); }
+  function failed(input) { callback(null, {result: false}); }
+  function errored(err) { callback(err, null); }
 
   var input = {
       region: params.region,

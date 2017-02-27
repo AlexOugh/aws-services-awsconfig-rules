@@ -1,10 +1,11 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: API Interfaces and corresponding Lambda Functions for awsconfig.
+
 Parameters:
-  FederationLambdaFunctionName:
+  AWSConfigTopicArn:
     Type: String
-    Description: Federation Lambda Function Name
+    Description: Arn of AWSConfig Topic
 
 Resources:
   ApiGatewayApi:
@@ -142,6 +143,11 @@ Resources:
       Environment:
         Variables:
           TABLE_NAME: !Ref DynamoDBTable
+      Events:
+        AWSConfigTopic:
+          Type: SNS
+          Properties:
+            Topic: !Ref AWSConfigTopicArn
   DynamoDBTable:
     Type: AWS::DynamoDB::Table
     Properties:
